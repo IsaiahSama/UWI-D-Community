@@ -1,7 +1,11 @@
+extensions = ["admin", "eventhandler", "general"]
+
 constants = {
-    "PREFIX": "PENDING",
+    "PREFIX": "!!",
     "GUILD_ID": 850459748385816577,
-    "ACTIVITY_NAME": "to students"
+    "ACTIVITY_NAME": "students"
 }
 
-extensions = ["admin", "eventhandler", "general"]
+channels = {
+    "WELCOME": 850490547658948648
+}
