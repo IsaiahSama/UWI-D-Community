@@ -25,12 +25,20 @@ selectable_roles_by_name = {
     "PRELIM": 850512518358106132,
     "LEVEL_1": 850512664450695188, 
     "LEVEL_2": 850512594498355200, 
-    "LEVEL_3": 850512703478562876
+    "LEVEL_3": 850512703478562876,
+    "CAVE_HILL": 850768825108267048,
+    "MONA": 850768882994249738, 
+    "ST_AUGSTINE": 850769015662968842, 
+    "FIVE_ISLANDS": 850769191409025054
 }
 
 selcetable_roles_by_emoji = {
     "🤓": "PRELIM",
     "📕": "LEVEL_1",
     "📖": "LEVEL_2",
-    "📚": "LEVEL_3"
+    "📚": "LEVEL_3",
+    "\U0001f1e7\U0001f1e7": "CAVE_HILL",
+    "\U0001f1ef\U0001f1f2": "MONA",
+    "\U0001f1f9\U0001f1f9": "ST_AUGUSTINE",
+    "\U0001f1e6\U0001f1ec": "FIVE_ISLANDS"
 }

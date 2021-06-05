@@ -60,7 +60,8 @@ class Admin(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
-    async def add_reactions(self, ctx, message_id:int, *, reactions:list):
+    async def add_reactions(self, ctx, message_id:int, *, reactions):
+        reactions = reactions.split(", ")
         message = await ctx.channel.fetch_message(message_id)
 
         for reaction in reactions:
