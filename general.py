@@ -1,5 +1,5 @@
-from discord.ext import commands, tasks
-from botdata import channels, vc_to_tc
+from discord.ext import commands
+from botdata import vc_to_tc
 from discord import PermissionOverwrite
 
 class General(commands.Cog):
@@ -8,7 +8,6 @@ class General(commands.Cog):
     
     def __init__(self, bot) -> None:
         self.bot = bot
-        bot.loop.create_task(self.async_init())
 
     in_vc = []
 
