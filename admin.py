@@ -15,11 +15,6 @@ class Admin(commands.Cog):
         print("Ready")
         await bot_setup.set_activity()
 
-    @commands.command()
-    @commands.is_owner()
-    async def create_role(self, ctx, role_name):
-        await ctx.guild.create_role(name=role_name)
-        await ctx.send(f"Created {role_name}")
 
     @commands.command(brief="Creates a text channel with the given name", help="Used to create a text channel with the name specified", usage="channel_name Optional[category_id]")
     @commands.has_guild_permissions(manage_channels=True)
@@ -49,6 +44,25 @@ class Admin(commands.Cog):
         success = await ctx.guild.create_category(channel_name)
         await ctx.send(f"Created Category with the name {success.name} and id of {success.id}")
 
+    @commands.command()
+    @commands.is_owner()
+    async def create_role(self, ctx, role_name):
+        await ctx.guild.create_role(name=role_name)
+        await ctx.send(f"Created {role_name}")
+
+    @commands.command()
+    @commands.is_owner()
+    async def send_message(self, ctx, *, message):
+        await ctx.message.delete()
+        await ctx.send(message)
+
+    @commands.command()
+    @commands.is_owner()
+    async def add_reactions(self, ctx, message_id:int, *, reactions:list):
+        message = await ctx.channel.fetch_message(message_id)
+
+        for reaction in reactions:
+            await message.add_reaction(reaction)
 
 def setup(bot):
     bot.add_cog(Admin(bot))
