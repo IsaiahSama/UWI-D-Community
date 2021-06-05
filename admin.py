@@ -14,6 +14,8 @@ class Admin(commands.Cog):
         await self.bot.wait_until_ready()
         print("Ready")
         await bot_setup.set_activity()
+        await bot_setup.create_db()
+        print("Database was created")
 
 
     @commands.command(brief="Creates a text channel with the given name", help="Used to create a text channel with the name specified", usage="channel_name Optional[category_id]")

@@ -3,6 +3,7 @@ from discord import Activity, ActivityType, Status
 from discord.ext import commands
 from discord.ext.commands.bot import Bot
 from botdata import constants, extensions
+import aiosqlite
 
 class Setup:    
     def __init__(self, bot=None) -> None:
@@ -41,3 +42,14 @@ class Setup:
 
         activity = Activity(name=constants["ACTIVITY_NAME"], type=ActivityType.listening)
         await self.bot.change_presence(activity=activity, status=Status.online)
+
+    async def create_db(self):
+        db = await aiosqlite.connect("uwidb.sqlite3")
+        await db.execute("""CREATE TABLE IF NOT EXISTS GroupTable(
+            GROUP_ID INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
+            OWNER_ID INTEGER NOT NULL,
+            GROUP_NAME TEXT UNIQUE NOT NULL,
+            MEMBERS TEXT);""")
+        
+        await db.commit()
+        await db.close()
