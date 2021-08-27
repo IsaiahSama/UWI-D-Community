@@ -4,6 +4,7 @@ from discord.ext import commands
 from botdata import vc_to_tc, constants
 from discord import PermissionOverwrite
 from database import *
+import aiosqlite
 
 class General(commands.Cog):
 
@@ -64,7 +65,7 @@ class General(commands.Cog):
             return str(reaction.emoji) == "✔️" and user == member
 
         try:
-            reaction, user = await self.bot.wait_for("reaction_add", check=check, timeout=60 * 60)
+            _, _ = await self.bot.wait_for("reaction_add", check=check, timeout=60 * 60)
         except asyncio.TimeoutError:
             await ctx.send(f"{ctx.author.mention}, your invite to {member.mention} to join {group[2]} has expired.")
             return

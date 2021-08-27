@@ -1,7 +1,5 @@
 from sqlite3.dbapi2 import Row
-import aiosqlite
 from aiosqlite.core import Connection
-from discord.ext.commands.core import group
 
 async def group_exists(db:Connection, name:str) -> Row:
     """ Function used to determine whether a group with a given name exists or not
