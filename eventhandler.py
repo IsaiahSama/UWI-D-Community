@@ -11,7 +11,7 @@ class EventHandler(commands.Cog):
 
     async def async_init(self):
         await self.bot.wait_until_ready()
-        self.check_reactions()
+        await self.check_reactions()
 
     async def check_reactions(self):
         guild = self.bot.guilds[0]
@@ -21,14 +21,14 @@ class EventHandler(commands.Cog):
         for target in targets:
             for reaction in target.reactions:
                 users = await reaction.users().flatten()
-                valid = filter(lambda x: isinstance(x, Member))
+                valid = filter(lambda x: isinstance(x, Member), users)
                 try:
                     role = guild.get_role(selectable_roles_by_name[selcetable_roles_by_emoji[str(reaction.emoji)]])
                 except:
                     partial_message = PartialMessage(channel=guild.get_channel(channel.id), id=reaction.message.id)
                     await partial_message.clear_reaction(reaction.emoji)
                     continue
-                [member.add_role(role) for member in valid]
+                [await member.add_roles(role) for member in valid]
 
 
     @commands.Cog.listener()
@@ -40,6 +40,8 @@ class EventHandler(commands.Cog):
         if message.author.bot: return
         if message.channel.id == channels["COUNTING"]:
             await self.handle_counting(message)
+        if message.channel.id == channels["NAMING"]:
+            await message.author.edit(nick=message.content)
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
