@@ -1,4 +1,4 @@
-extensions = ["admin", "eventhandler", "general"]
+extensions = ["admin", "eventhandler", "general", "errorhandler"]
 
 constants = {
     "PREFIX": "!!",
