@@ -18,27 +18,42 @@ class Admin(commands.Cog):
         print("Database was created")
 
 
-    @commands.command(brief="Creates a text channel with the given name", help="Used to create a text channel with the name specified", usage="channel_name Optional[category_id]")
+    @commands.command(brief="Creates a text channel with the given name", help="Used to create a text channel with the name specified (If the channel name has in a space, put the entire thing in quotes)", usage="channel_name Optional[category_id]")
     @commands.has_guild_permissions(manage_channels=True)
     async def create_text_channel(self, ctx, channel_name, category_id:int=None):
         if category_id:
-            channel = ctx.guild.get_channel(category_id)
+            try:
+                channel = ctx.guild.get_channel(category_id)
+            except:
+                await ctx.send("Could not find a category with that ID")
+                return
         else:
             channel = ctx.channel
         
         success = await channel.create_text_channel(channel_name)
-        await ctx.send(f"Created text channel with the name {success.name}")
+        message = f"Created text channel with the name {success.name} with id {success.id}"
+        if category_id:
+            message += f" in {channel.name} with id {category_id}"
+        
+        await ctx.send(message)
 
     @commands.command(brief="Creates a voice channel with the given name", help="Used to create a voice channel with the name specified", usage="channel_name Optional[category_id]")
     @commands.has_guild_permissions(manage_channels=True)
     async def create_voice_channel(self, ctx, channel_name, category_id:int=None):
         if category_id:
-            channel = ctx.guild.get_channel(category_id)
+            try:
+                channel = ctx.guild.get_channel(category_id)
+            except:
+                await ctx.send("Could not find a category with that ID")
+                return
         else:
             channel = ctx.guild
         
         success = await channel.create_voice_channel(channel_name)
-        await ctx.send(f"Created voice channel with the name {success.name}")
+        message = f"Created voice channel with the name {success.name} with id {success.id}"
+        if category_id:
+            message += f" in {channel.name} with id {category_id}"
+        await ctx.send(message)
 
     @commands.command(brief="Creates a Category with the given name", help="Used to create a Category with the name specified", usage="category_name")
     @commands.has_guild_permissions(manage_channels=True)
@@ -49,8 +64,8 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def create_role(self, ctx, role_name):
-        await ctx.guild.create_role(name=role_name)
-        await ctx.send(f"Created {role_name}")
+        role = await ctx.guild.create_role(name=role_name)
+        await ctx.send(f"Created {role.name} with an id of {role.id}")
 
     @commands.command()
     @commands.is_owner()
