@@ -33,7 +33,7 @@ class EventHandler(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        await member.guild.get_channel(channels["WELCOME"]).send(f"Welcome {member.mention} to The UWI Discord Community. Here, the only rule is to be sensible. Enjoy your time, we look forward to learning with you. Be sure to go to {member.guild.get_channel(channels['ROLES']).mention} and select your roles")
+        await member.guild.get_channel(channels["WELCOME"]).send(f"Welcome {member.mention} to The UWI Discord Community. Here, the only rule is to be sensible. Enjoy your time, we look forward to learning with you. Be sure to go to {member.guild.get_channel(channels['ROLES']).mention} and select your roles, and feel free to tell us your name in {member.guild.get_channel(channels['NAMING']).mention}")
 
     @commands.Cog.listener()
     async def on_message(self, message):

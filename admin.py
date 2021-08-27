@@ -1,5 +1,6 @@
 from discord.ext import commands 
 from main import bot_setup
+from botdata import constants
 
 class Admin(commands.Cog):
     
@@ -60,6 +61,17 @@ class Admin(commands.Cog):
     async def create_category(self, ctx, channel_name):
         success = await ctx.guild.create_category(channel_name)
         await ctx.send(f"Created Category with the name {success.name} and id of {success.id}")
+
+    @commands.commnd(brief="Moves a text or voice channel to another category", help="Moves a text or voice channel (by id) to another category.", usage="id_of_channel id_of_category")
+    @commands.has_guild_permissions(manage_channels=True)
+    async def move_channel(self, ctx, channel_id:int, category_id:int):
+        channel, category = ctx.guild.get_channel(channel_id), ctx.guild.get_channel(category_id)
+        if not all([channel, category]):
+            await ctx.send(f"One of the given ids do not match any current existing channels/categories. Use {constants['PREFIX']}id_for channel_name to get the id of any channel/category.")
+            return
+
+        await channel.edit(category=category)
+        await ctx.send(f"Successfully moved {channel.name} to {category.name}.")
 
     @commands.command()
     @commands.is_owner()
