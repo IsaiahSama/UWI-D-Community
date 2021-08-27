@@ -1,11 +1,35 @@
 from discord.ext import commands
 from discord import utils, PartialMessage
+from discord.member import Member
 from botdata import channels, constants, selectable_roles_by_name, selcetable_roles_by_emoji
 class EventHandler(commands.Cog):
     
     def __init__(self, bot) -> None:
         """ Class used for handling all Events"""
         self.bot = bot
+        bot.loop.create_task(self.async_init())
+
+    async def async_init(self):
+        await self.bot.wait_until_ready()
+        self.check_reactions()
+
+    async def check_reactions(self):
+        guild = self.bot.guilds[0]
+        channel = guild.get_channel(channels['ROLES'])
+        messages = await channel.history(limit=10).flatten()
+        targets = [message for message in messages if message.reactions]
+        for target in targets:
+            for reaction in target.reactions:
+                users = await reaction.users().flatten()
+                valid = filter(lambda x: isinstance(x, Member))
+                try:
+                    role = guild.get_role(selectable_roles_by_name[selcetable_roles_by_emoji[str(reaction.emoji)]])
+                except:
+                    partial_message = PartialMessage(channel=guild.get_channel(channel.id), id=reaction.message.id)
+                    await partial_message.clear_reaction(reaction.emoji)
+                    continue
+                [member.add_role(role) for member in valid]
+
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
