@@ -73,6 +73,19 @@ class Admin(commands.Cog):
         await channel.edit(category=category)
         await ctx.send(f"Successfully moved {channel.name} to {category.name}.")
 
+    @commands.command(brief="Gets the id of a channel", help="Used to get the ID of any channel in the server just by giving it's name.", usage="channel_or_category_name")
+    async def id_for(self, ctx, name):
+        results = list(filter(lambda channel: channel.name.lower().startswith(name), ctx.guild.channels))
+        if not results:
+            await ctx.send(f"Could not find any channels with the name {name}")
+            return
+
+        output = ""
+        for result in results:
+            output += f"{result.name}: {result.id}\n"
+        
+        await ctx.send(output, delete_after=30)
+
     @commands.command()
     @commands.is_owner()
     async def create_role(self, ctx, role_name):
