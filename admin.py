@@ -62,7 +62,7 @@ class Admin(commands.Cog):
         success = await ctx.guild.create_category(channel_name)
         await ctx.send(f"Created Category with the name {success.name} and id of {success.id}")
 
-    @commands.commnd(brief="Moves a text or voice channel to another category", help="Moves a text or voice channel (by id) to another category.", usage="id_of_channel id_of_category")
+    @commands.command(brief="Moves a text or voice channel to another category", help="Moves a text or voice channel (by id) to another category.", usage="id_of_channel id_of_category")
     @commands.has_guild_permissions(manage_channels=True)
     async def move_channel(self, ctx, channel_id:int, category_id:int):
         channel, category = ctx.guild.get_channel(channel_id), ctx.guild.get_channel(category_id)
@@ -101,10 +101,10 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def add_reactions(self, ctx, message_id:int, *, reactions):
-        reactions = reactions.split(", ")
         message = await ctx.channel.fetch_message(message_id)
 
-        for reaction in reactions:
+        for reaction in reactions.split():
+            print(reaction)
             await message.add_reaction(reaction)
 
 def setup(bot):

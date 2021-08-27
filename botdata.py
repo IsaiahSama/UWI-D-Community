@@ -30,10 +30,17 @@ selectable_roles_by_name = {
     "CAVE_HILL": 850768825108267048,
     "MONA": 850768882994249738, 
     "ST_AUGUSTINE": 850769015662968842, 
-    "FIVE_ISLANDS": 850769191409025054
+    "FIVE_ISLANDS": 850769191409025054,
+    "LAW": 880803522734612521,
+    "MEDICAL": 880803628871454770,
+    "SCI-TECH": 880803672190226492,
+    "HUMANITIES": 880803706700968026,
+    "CREATIVE_ARTS": 880804468168458240,
+    "SOCIAL_SCI": 880804799879192627,
+    "SPORTS": 880804846104637451
 }
 
-selcetable_roles_by_emoji = {
+selectable_roles_by_emoji = {
     "🤓": "PRELIM",
     "📕": "LEVEL_1",
     "📖": "LEVEL_2",
@@ -41,5 +48,12 @@ selcetable_roles_by_emoji = {
     "\U0001f1e7\U0001f1e7": "CAVE_HILL",
     "\U0001f1ef\U0001f1f2": "MONA",
     "\U0001f1f9\U0001f1f9": "ST_AUGUSTINE",
-    "\U0001f1e6\U0001f1ec": "FIVE_ISLANDS"
+    "\U0001f1e6\U0001f1ec": "FIVE_ISLANDS",
+    "⚖️": "LAW",
+    "⚕️": "MEDICAL",
+    "🖥️": "SCI-TECH",
+    "📋": "HUMANITIES",
+    "🎨": "CREATIVE_ARTS",
+    "🏀": "SPORTS",
+    "🗣️": "SOCIAL_SCI"
 }

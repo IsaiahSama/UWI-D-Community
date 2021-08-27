@@ -1,7 +1,7 @@
 from discord.ext import commands
 from discord import utils, PartialMessage
 from discord.member import Member
-from botdata import channels, constants, selectable_roles_by_name, selcetable_roles_by_emoji
+from botdata import channels, constants, selectable_roles_by_name, selectable_roles_by_emoji
 class EventHandler(commands.Cog):
     
     def __init__(self, bot) -> None:
@@ -23,7 +23,7 @@ class EventHandler(commands.Cog):
                 users = await reaction.users().flatten()
                 valid = filter(lambda x: isinstance(x, Member), users)
                 try:
-                    role = guild.get_role(selectable_roles_by_name[selcetable_roles_by_emoji[str(reaction.emoji)]])
+                    role = guild.get_role(selectable_roles_by_name[selectable_roles_by_emoji[str(reaction.emoji)]])
                 except:
                     partial_message = PartialMessage(channel=guild.get_channel(channel.id), id=reaction.message.id)
                     await partial_message.clear_reaction(reaction.emoji)
@@ -106,12 +106,16 @@ class EventHandler(commands.Cog):
         if not user: return
 
         try:
-            role = guild.get_role(selectable_roles_by_name[selcetable_roles_by_emoji[str(payload.emoji)]])
-        except:
+            print(str(payload.emoji))
+            print(selectable_roles_by_emoji[str(payload.emoji)])
+            role = guild.get_role(selectable_roles_by_name[selectable_roles_by_emoji[str(payload.emoji)]])
+        except KeyError:
+            print(f"Key Error was raised... {selectable_roles_by_emoji.keys()} does not have a {str(payload.emoji)} key")
             partial_message = PartialMessage(channel=guild.get_channel(payload.channel_id), id=payload.message_id)
             await partial_message.remove_reaction(payload.emoji, user)
             return
 
+        if user.bot: return
         if payload.event_type == "REACTION_ADD":
             await self.handle_reaction_add(role, user)
         else:
