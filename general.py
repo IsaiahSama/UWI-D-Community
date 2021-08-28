@@ -5,6 +5,8 @@ from botdata import vc_to_tc, constants
 from discord import PermissionOverwrite
 from database import *
 import aiosqlite
+from aiohttp import ClientSession
+from bs4 import BeautifulSoup as BS
 
 class General(commands.Cog):
 
@@ -88,6 +90,33 @@ class General(commands.Cog):
         group_names = [f"`{group[2]}`" for group in groups]
         await ctx.send(", ".join(group_names))
         
+    @commands.command(brief="Displays the Calendar for the current academic year", help="Used to view the calendar for the current academic year")
+    async def calendar(self, ctx, *, option=None):
+        if not option:
+            await ctx.send(f"Use `{constants['PREFIX']}calendar semester 1 / semester 2 / graduation` instead")
+            return
+
+        options = {"semester 1": 0, "semester 2": 1, "graduation": 2}
+
+        if option.lower() not in options.keys():
+            await ctx.send(f"That is not a valid option. Valid options are {', '.join(list(options.keys()))}")
+            return
+
+        to_send = []
+        async with ClientSession() as session:
+            async with session.get("https://www.cavehill.uwi.edu/calendar.aspx") as req:
+                soup = BS(await req.text(), "html.parser")
+                info = soup.select("tr")
+                to_send = [x.text for x in info]
+        
+        if not to_send:
+            await ctx.send("An error has seemingly occurred and the calendar is not available for me at this moment. Refer to: https://www.cavehill.uwi.edu/calendar.aspx")
+            return False
+
+        data = ''.join(to_send).split("\n\n\n")
+        
+        await ctx.send(f"```\n{data[options[option.lower()]]}```")
+
         
     # Listener for VC change
 
